@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { User } from './User.entity';
-import { UserRepository } from './UserRepository';
-import { UserDto } from './dto/UserDto';
-import { UserException } from './exception/UserException';
+import { User } from '../model/User.entity';
+import { UserRepository } from '../repository/UserRepository';
+import { UserDto } from '../dto/UserDto';
+import { UserException } from '../exception/UserException';
 
 
 @Injectable()

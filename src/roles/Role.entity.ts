@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryColumn, ManyToMany, JoinTable } from "typeorm"
 import { Function } from "../functions/Function.entity";
-import { User } from "../users/User.entity";
+import { User } from "../users/model/User.entity";
 
 @Entity({ name: 'sec_role' })
 export class Role {

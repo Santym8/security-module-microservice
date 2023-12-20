@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryColumn, ManyToMany, JoinTable, ManyToOne, OneToMany } from "typeorm"
-import { Role } from "../roles/Role.entity";
+import { Role } from "../../roles/Role.entity";
 import { Audit } from "src/audit/Audit.entity";
 
 @Entity({ name: 'sec_user' })

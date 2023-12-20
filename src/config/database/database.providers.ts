@@ -1,4 +1,4 @@
-import { User } from 'src/users/User.entity';
+import { User } from 'src/users/model/User.entity';
 import { Module } from 'src/modules/Module.entity';
 
 import { DataSource } from 'typeorm';

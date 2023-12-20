@@ -1,4 +1,4 @@
-import { User } from "src/users/User.entity";
+import { User } from "src/users/model/User.entity";
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from "typeorm"
 
 @Entity({ name: 'sec_audit' })
