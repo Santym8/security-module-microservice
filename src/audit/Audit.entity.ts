@@ -21,6 +21,6 @@ export class Audit {
     @Column({ nullable: false, type: 'datetime' })
     date: Date;
 
-    @ManyToOne(type => User, user => user.audits)
+    @ManyToOne(type => User)
     user: User;
 }

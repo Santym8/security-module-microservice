@@ -4,7 +4,7 @@ import { Audit } from "src/audit/Audit.entity";
 
 @Entity({ name: 'sec_user' })
 export class User {
-    @PrimaryColumn({ length: 10, type: 'varchar' })
+    @PrimaryColumn({ length: 20, type: 'varchar' })
     username: string;
 
     @Column({ unique: true, nullable: false, length: 30, type: 'varchar' })
@@ -18,11 +18,4 @@ export class User {
 
     @Column({ nullable: false, length: 15, type: 'varchar' })
     password: string;
-
-    @ManyToMany(type => Role, role => role.users)
-    @JoinTable()
-    roles: Role[];
-
-    @OneToMany(type => Audit, audit => audit.user)
-    audits: Audit[];
 }
