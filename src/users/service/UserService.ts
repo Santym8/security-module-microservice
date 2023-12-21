@@ -34,6 +34,14 @@ export class UserService {
         return await this.userRepository.create(newUser);
     }
 
+    async delete(username: string): Promise<void> {
+        if (!username || !await this.userRepository.getByUsername(username)) {
+            throw new UserException('User not found', 404);
+        }
+
+        await this.userRepository.deleteByUsername(username);
+    }
+
 
 
 }
