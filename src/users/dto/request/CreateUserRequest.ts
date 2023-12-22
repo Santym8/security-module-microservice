@@ -1,5 +1,5 @@
 import { IsString, IsEmail, Length, IsNotEmpty } from 'class-validator';
-export class UserDto {
+export class CreateUserRequest {
     @IsString()
     @IsNotEmpty()
     @Length(5, 20)
@@ -18,6 +18,4 @@ export class UserDto {
     @IsNotEmpty()
     @Length(8, 15)
     password: string;
-
-    status?: boolean;
 }

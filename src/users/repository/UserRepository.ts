@@ -14,16 +14,22 @@ export class UserRepository {
         this.userRepository = this.dataSourceConfig.getRepository(User);
     }
 
-    public async create(user: User): Promise<User> {
+    public async createOrUpdate(user: User): Promise<User> {
         return this.userRepository.save(user);
     }
+
+
+    public async delete(id: number): Promise<void> {
+        await this.userRepository.delete({ id: id });
+    }
+
 
     public async getAll(): Promise<User[]> {
         return await this.userRepository.find();
     }
 
-    public async deleteByUsername(username: string): Promise<void> {
-        await this.userRepository.delete({ username: username });
+    public async getById(id: number): Promise<User> {
+        return await this.userRepository.findOneBy({ id: id });
     }
 
     public async getByUsername(username: string): Promise<User> {
@@ -37,6 +43,7 @@ export class UserRepository {
     public async getByDni(dni: string): Promise<User> {
         return await this.userRepository.findOneBy({ dni: dni });
     }
+
 
 
 }
