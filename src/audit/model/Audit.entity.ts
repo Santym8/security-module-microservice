@@ -1,10 +1,10 @@
-import { User } from "src/users/User.entity";
+import { User } from "src/users/model/User.entity";
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from "typeorm"
 
 @Entity({ name: 'sec_audit' })
 export class Audit {
     @PrimaryGeneratedColumn()
-    id: string;
+    id: number;
 
     @Column({ nullable: false, length: 30, type: 'varchar' })
     action: string;
@@ -21,6 +21,6 @@ export class Audit {
     @Column({ nullable: false, type: 'datetime' })
     date: Date;
 
-    @ManyToOne(type => User, user => user.audits)
+    @ManyToOne(type => User)
     user: User;
 }

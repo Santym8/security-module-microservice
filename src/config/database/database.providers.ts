@@ -1,10 +1,10 @@
-import { User } from 'src/users/User.entity';
-import { Module } from 'src/modules/Module.entity';
+import { User } from 'src/users/model/User.entity';
+import { Module } from 'src/modules/model/Module.entity';
 
 import { DataSource } from 'typeorm';
-import { Function } from 'src/functions/Function.entity';
-import { Role } from 'src/roles/Role.entity';
-import { Audit } from 'src/audit/Audit.entity';
+import { Function } from 'src/functions/model/Function.entity';
+import { Role } from 'src/roles/model/Role.entity';
+import { Audit } from 'src/audit/model/Audit.entity';
 
 export const databaseProviders = [
   {

@@ -1,12 +1,12 @@
-import { Entity, Column, PrimaryColumn, OneToMany } from "typeorm"
-import { Function } from "../functions/Function.entity";
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm"
+import { Function } from "../../functions/model/Function.entity";
 
 @Entity({ name: 'sec_module' })
 export class Module {
-    @PrimaryColumn({ length: 15, type: 'varchar' })
-    id: string;
+    @PrimaryGeneratedColumn()
+    id: number;
 
-    @Column({ nullable: false, length: 50, type: 'varchar' })
+    @Column({ nullable: false, length: 50, type: 'varchar', unique: true })
     name: string;
 
     @Column({ nullable: false, length: 50, type: 'varchar' })
