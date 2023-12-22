@@ -4,7 +4,7 @@ import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from "typeorm"
 @Entity({ name: 'sec_audit' })
 export class Audit {
     @PrimaryGeneratedColumn()
-    id: string;
+    id: number;
 
     @Column({ nullable: false, length: 30, type: 'varchar' })
     action: string;

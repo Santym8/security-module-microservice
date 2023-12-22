@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable, ManyToOne, OneToMany } from "typeorm"
-import { Role } from "../../roles/Role.entity";
-import { Audit } from "src/audit/Audit.entity";
+import { Role } from "../../roles/model/Role.entity";
+import { Audit } from "src/audit/model/Audit.entity";
 
 @Entity({ name: 'sec_user' })
 export class User {
