@@ -24,8 +24,7 @@ export class AuthService {
         }
 
         const payload = {
-            username: user.username,
-            email: user.email,
+            id: user.id,
         };
 
         const token = await this.tokenManager.newToken(payload);

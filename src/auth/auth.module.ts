@@ -5,6 +5,7 @@ import { AuthService } from './service/AuthService';
 import { AuthController } from './controller/AuthController';
 import { TokenManager } from './utils/TokenManager';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { AuthGuard } from './utils/AuthGuard';
 
 @Module({
     imports: [
@@ -15,6 +16,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     ],
     providers: [AuthService, TokenManager],
     controllers: [AuthController],
-    exports: [],
+    exports: [TokenManager],
 })
 export class AuthModule { }
