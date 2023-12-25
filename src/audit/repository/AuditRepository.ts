@@ -26,7 +26,10 @@ export class AuditRepository {
 
     public async getAllJoinUserAndFunction(): Promise<Audit[]> {
         return (await this.auditRepository.find({
-            relations: ['user', 'function']
+            relations: ['user', 'function'],
+            order: {
+                id: "DESC"
+            }
         }));
     }
 }

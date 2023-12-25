@@ -13,7 +13,7 @@ export class AuthController {
 
     @Post()
     async login(@Body() request: LoginRequest): Promise<AuthReponse> {
-        return await this.authService.login(request.username, request.password);
+        return await this.authService.login(request);
     }
 
     @UseGuards(AuthGuard)

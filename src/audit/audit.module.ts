@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { DatabaseModule } from 'src/config/database/database.module';
 import { AuditController } from './controller/AuditController';
 import { AuditRepository } from './repository/AuditRepository';
@@ -8,8 +8,13 @@ import { UsersModule } from 'src/users/users.module';
 import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
-    imports: [DatabaseModule, UsersModule, AuthModule],
+    imports: [
+        DatabaseModule,
+        UsersModule,
+        forwardRef(() => AuthModule)
+    ], // Avoid circular dependency
     controllers: [AuditController],
     providers: [AuditRepository, AuditService],
+    exports: [AuditRepository]
 })
 export class AuditModule { }
