@@ -15,9 +15,9 @@ export class Role {
 
     @ManyToMany(type => Function, func => func.roles)
     @JoinTable()
-    functions: Function[];
+    functions?: Function[];
 
     @ManyToMany(type => User)
-    users: User[];
+    users?: User[];
 
 }
