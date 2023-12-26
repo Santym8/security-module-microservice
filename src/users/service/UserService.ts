@@ -15,6 +15,10 @@ export class UserService {
         return await this.userRepository.getAll();
     }
 
+    async findOne(id: number): Promise<GetUserResponse> {
+        return await this.userRepository.getById(id);
+    }
+
     async create(user: CreateUserRequest): Promise<number> {
         if (await this.userRepository.getByEmail(user.email)) {
             throw new UserException('User with that email already exists', 400);
@@ -72,7 +76,7 @@ export class UserService {
         userToUpdate.dni = user.dni;
         userToUpdate.status = user.status;
         userToUpdate.password = user.password;
-        
+
 
         await this.userRepository.createOrUpdate(userToUpdate);
     }

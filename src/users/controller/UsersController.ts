@@ -18,6 +18,12 @@ export class UsersController {
     return this.userService.findAll();
   }
 
+  @Get('/:id')
+  async get(@Param('id') id: any): Promise<GetUserResponse> {
+    id = parseInt(id) || -1;
+    return await this.userService.findOne(id);
+  }
+
   @Post()
   async create(@Body() user: CreateUserRequest): Promise<UserResponse> {
     const userId = await this.userService.create(user);
