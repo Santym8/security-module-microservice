@@ -16,7 +16,13 @@ export class UserService {
     }
 
     async findOne(id: number): Promise<GetUserResponse> {
-        return await this.userRepository.getById(id);
+        const user = await this.userRepository.getById(id);
+
+        if (!user) {
+            throw new UserException('User not found', 404);
+        }
+
+        return user;
     }
 
     async create(user: CreateUserRequest): Promise<number> {
