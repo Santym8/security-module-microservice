@@ -53,7 +53,9 @@ export class UserService {
             throw new UserException('User not found', 404);
         }
 
-        await this.userRepository.delete(id);
+        await this.userRepository.delete(id).catch((err) => {
+            throw new UserException('User has associated data', 400);
+        });
     }
 
     async update(id: number, user: UpdateUserRequest): Promise<void> {
