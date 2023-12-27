@@ -17,6 +17,12 @@ export class RolesController {
     return this.roleService.findAll();
   }
 
+  @Get('/:id')
+  async get(@Param('id') id: any): Promise<GetRoleResponse> {
+    id = parseInt(id) || -1;
+    return await this.roleService.findOne(id);
+  }
+
   @Post()
   async create(@Body() role: CreateRoleRequest): Promise<RoleResponse> {
     const roleId = await this.roleService.create(role);
