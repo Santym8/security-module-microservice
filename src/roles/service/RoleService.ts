@@ -5,10 +5,16 @@ import { CreateRoleRequest } from "../dto/request/CreateRoleRequest";
 import { RoleException } from "../exception/RoleException";
 import { UpdateRoleRequest } from "../dto/request/UpdateRoleRequest";
 import { GetRoleResponse } from "../dto/response/GetRoleResponse";
+import { AssignFunctionsToRoleRequest } from "../dto/request/AssignFunctionsToRoleRequest";
+import { FunctionRepository } from "../../functions/repository/FunctionRepository";
+import { Function } from "../../functions/model/Function.entity";
 
 @Injectable()
 export class RoleService {
-    constructor(private roleRepository: RoleRepository) { }
+    constructor(
+        private roleRepository: RoleRepository,
+        private functionRepository: FunctionRepository,
+        ) { }
 
     async findAll(): Promise<GetRoleResponse[]> {
         return await this.roleRepository.getAll();
@@ -55,5 +61,26 @@ export class RoleService {
         roleToUpdate.status = role.status;
 
         await this.roleRepository.createOrUpdate(roleToUpdate);
+    }
+
+    async assignFunctions(request: AssignFunctionsToRoleRequest): Promise<void> {
+        if (!Number.isInteger(request.roleId)) {
+            throw new RoleException('Invalid roleId', 400);
+        }
+        const role = await this.roleRepository.getById(request.roleId);
+        if (!role) {
+            throw new RoleException('Role not found', 404);
+        }
+        const functions = await Promise.all(request.functionIds.map(id => this.functionRepository.getById(id)));
+        role.functions = functions;
+        await this.roleRepository.createOrUpdate(role);
+    }
+
+    async getFunctionsForRole(roleId: number): Promise<Function[]> {
+        const role = await this.roleRepository.getById(roleId);
+        if (!role) {
+            throw new RoleException('Role not found', 404);
+        }
+        return role.functions;
     }
 }
