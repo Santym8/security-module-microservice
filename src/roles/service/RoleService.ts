@@ -14,6 +14,9 @@ export class RoleService {
         return await this.roleRepository.getAll();
     }
 
+    async findOne(id: number): Promise<GetRoleResponse> {
+        return await this.roleRepository.getById(id);
+    }
     async create(role: CreateRoleRequest): Promise<number> {
         if (await this.roleRepository.getByName(role.name)) {
             throw new RoleException('Role with that name already exists', 400);
