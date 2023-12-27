@@ -1,4 +1,4 @@
-import {Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { Module } from '../model/Module.entity';
 import { ModuleRepository } from '../repository/ModelRespository';
 import { CreateModuleRequest } from '../dto/request/CreateModuleRequest';
@@ -16,6 +16,9 @@ export class ModulesService {
     }
 
     async findOne(id: number): Promise<GetModuleResponse> {
+        if (!await this.moduleRepository.getById(id)) {
+            throw new ModuleException('Module not found', 404);
+        }
         return await this.moduleRepository.getById(id);
     }
 
@@ -59,9 +62,4 @@ export class ModulesService {
 
         await this.moduleRepository.createOrUpdate(moduleToUpdate);
     }
-
-
-
-
-
 }
