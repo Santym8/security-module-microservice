@@ -16,6 +16,6 @@ export class Module {
     status: boolean;
 
     @OneToMany(type => Function, func => func.module)
-    functions: Function[];
+    functions?: Function[];
 
 }
