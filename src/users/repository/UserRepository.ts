@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 import { User } from '../model/User.entity';
+import { Role } from 'src/roles/model/Role.entity';
 
 @Injectable()
 export class UserRepository {
@@ -43,6 +44,26 @@ export class UserRepository {
     public async getByDni(dni: string): Promise<User> {
         return await this.userRepository.findOneBy({ dni: dni });
     }
+
+
+    public async getFunctionsOfUser(id: number): Promise<string[]> {
+        const user = await this.userRepository.findOne(
+            {
+                where: { id: id },
+                relations: ['roles.functions']
+            });
+
+        return user.roles
+            // Arrays of functions
+            .map(role => role.functions)
+            // Concat arrays
+            .reduce((acc, val) => acc.concat(val), [])
+            // Get only the name of the functions
+            .map(functions => functions.name)
+            // Delete duplicates
+            .filter((value, index, self) => self.indexOf(value) === index);
+    }
+
 
 
 

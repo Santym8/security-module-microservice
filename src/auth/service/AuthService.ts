@@ -45,10 +45,12 @@ export class AuthService {
         audit.description = 'Login success';
         await this.auditRepository.createOrUpdate(audit);
 
+        const functions = await this.userRepository.getFunctionsOfUser(user.id);
         return {
             token,
             username: user.username,
             email: user.email,
+            functions: functions
         }
     }
 }
