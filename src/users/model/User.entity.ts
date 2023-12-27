@@ -21,4 +21,8 @@ export class User {
 
     @Column({ nullable: false, length: 15, type: 'varchar' })
     password: string;
+
+    @ManyToMany(type => Role, role => role.users)
+    @JoinTable()
+    roles?: Role[];
 }
