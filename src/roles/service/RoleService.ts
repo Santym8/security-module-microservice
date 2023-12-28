@@ -77,7 +77,7 @@ export class RoleService {
     }
 
     async getFunctionsForRole(roleId: number): Promise<Function[]> {
-        const role = await this.roleRepository.getById(roleId);
+        const role = await this.roleRepository.getById(roleId, ['functions']);
         if (!role) {
             throw new RoleException('Role not found', 404);
         }
