@@ -4,6 +4,8 @@ import { CreateRoleRequest } from "../dto/request/CreateRoleRequest";
 import { UpdateRoleRequest } from "../dto/request/UpdateRoleRequest";
 import { GetRoleResponse } from "../dto/response/GetRoleResponse";
 import { RoleResponse } from "../dto/response/RoleResponse";
+import { AssignFunctionsToRoleRequest } from "../dto/request/AssignFunctionsToRoleRequest";
+import { Function } from "../../functions/model/Function.entity";
 
 @Controller('api/roles')
 export class RolesController {
@@ -23,12 +25,29 @@ export class RolesController {
     return await this.roleService.findOne(id);
   }
 
+  @Get('/:id/functions')
+  async getFunctions(@Param('id') id: any): Promise<Function[]> {
+    id = parseInt(id) || -1;
+    return await this.roleService.getFunctionsForRole(id);
+  }
+
   @Post()
   async create(@Body() role: CreateRoleRequest): Promise<RoleResponse> {
     const roleId = await this.roleService.create(role);
     return {
       message: "Role created successfully",
       id: roleId
+    }
+  }
+
+  @Post('/:id/functions')
+  async assignFunctions(@Param('id') id: any, @Body() request: AssignFunctionsToRoleRequest): Promise<RoleResponse> {
+    id = parseInt(id) || -1;
+    request.roleId = id;
+    await this.roleService.assignFunctions(request);
+    return {
+      message: "Functions assigned successfully",
+      id: id
     }
   }
 

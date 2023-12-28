@@ -23,8 +23,15 @@ export class RoleRepository {
     public async getAll(): Promise<Role[]> {
         return await this.roleRepository.find();
     }
-    public async getById(id: number): Promise<Role> {
-        return await this.roleRepository.findOneBy({ id: id });
+    public async getById(id: number, relations?: string[]): Promise<Role> {
+        if (relations) {
+            return await this.roleRepository.createQueryBuilder("role")
+                .leftJoinAndSelect("role.functions", "function")
+                .where("role.id = :id", { id })
+                .getOne();
+        } else {
+            return await this.roleRepository.findOneBy({id: id});
+        }
     }
     public async getByName(name: string): Promise<Role> {
         return await this.roleRepository.findOneBy({ name: name });
