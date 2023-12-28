@@ -5,13 +5,16 @@ import { AuditRequest } from '../dto/request/AuditRequest';
 import { Audit } from '../model/Audit.entity';
 import { UserRepository } from 'src/users/repository/UserRepository';
 import { UserException } from 'src/users/exception/UserException';
+import { FunctionRepository } from 'src/functions/repository/FunctionRepository';
+import { FuntionException } from 'src/functions/exception/FuntionException';
 
 
 @Injectable()
 export class AuditService {
     constructor(
         private readonly auditRepository: AuditRepository,
-        private readonly userRepository: UserRepository
+        private readonly userRepository: UserRepository,
+        private readonly functionRepository: FunctionRepository,
     ) { }
 
     async findAll(): Promise<AuditResponse[]> {
@@ -39,12 +42,17 @@ export class AuditService {
             throw new UserException('User not found', 404);
         }
 
-        // Todo - Get and Validate the Functin by Id
+        const functionEntity = await this.functionRepository.getByName(audit.functionName);
+
+        if (!functionEntity) {
+            throw new FuntionException('Function not found', 404);
+        }
 
         const auditEntity: Audit = {
             ...audit,
             date: new Date(),
             user: user,
+            function: functionEntity,
         }
 
         const auditCreated = await this.auditRepository.createOrUpdate(auditEntity);

@@ -7,7 +7,7 @@ export class Function {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ length: 50, type: 'varchar', nullable: false })
+    @Column({ length: 50, type: 'varchar', nullable: false, unique: true })
     name: string;
 
     @Column({ default: true, type: 'bit', nullable: false })
