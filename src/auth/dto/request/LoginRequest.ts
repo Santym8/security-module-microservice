@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString, Length } from 'class-validator';
 
 export class LoginRequest {
     @IsNotEmpty()
@@ -11,5 +11,6 @@ export class LoginRequest {
 
     @IsNotEmpty()
     @IsString()
+    @Length(7, 15)
     ip:string;
 }

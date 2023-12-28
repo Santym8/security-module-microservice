@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsOptional } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional, Length } from 'class-validator';
 
 export class AuditRequest {
     @IsNotEmpty()
@@ -7,6 +7,7 @@ export class AuditRequest {
 
     @IsNotEmpty()
     @IsString()
+    @Length(5, 30)
     action: string;
 
     @IsNotEmpty()
@@ -19,5 +20,6 @@ export class AuditRequest {
 
     @IsNotEmpty()
     @IsString()
+    @Length(7, 15)
     ip: string;
 }
