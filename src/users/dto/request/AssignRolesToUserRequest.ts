@@ -6,6 +6,5 @@ export class AssignRolesToUserRequest {
 
     @IsArray()
     @IsInt({ each: true })
-    @IsNotEmpty()
     roleIds: number[];
 }
