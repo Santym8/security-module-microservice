@@ -8,6 +8,7 @@ import { FunctionsModule } from 'src/functions/functions.module';
 @Module({
     controllers: [RolesController],
     providers: [RoleService, RoleRepository],
-    imports: [DatabaseModule, FunctionsModule]
+    imports: [DatabaseModule, FunctionsModule],
+    exports: [RoleRepository]
 })
 export class RolesModule { }

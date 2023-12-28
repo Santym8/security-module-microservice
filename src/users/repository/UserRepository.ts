@@ -29,8 +29,16 @@ export class UserRepository {
         return await this.userRepository.find();
     }
 
-    public async getById(id: number): Promise<User> {
-        return await this.userRepository.findOneBy({ id: id });
+    public async getById(id: number, relations?:string[]): Promise<User> {
+        if(relations){
+            return await this.userRepository.createQueryBuilder("user")
+            .leftJoinAndSelect("user.roles", "role")
+            .where("user.id = :id", { id })
+            .getOne();
+        }
+        else{
+            return await this.userRepository.findOneBy({ id: id });
+        }
     }
 
     public async getByUsername(username: string): Promise<User> {
