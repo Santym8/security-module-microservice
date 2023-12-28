@@ -3,7 +3,7 @@ import { IsString, IsNotEmpty, IsOptional } from 'class-validator';
 export class AuditRequest {
     @IsNotEmpty()
     @IsString()
-    functionId: string;
+    functionName: string;
 
     @IsNotEmpty()
     @IsString()
