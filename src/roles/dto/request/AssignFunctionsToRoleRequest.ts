@@ -7,6 +7,5 @@ export class AssignFunctionsToRoleRequest {
 
     @IsArray()
     @IsInt({ each: true })
-    @IsNotEmpty()
     functionIds: number[];
 }
