@@ -42,6 +42,10 @@ export class ModulesService {
             throw new ModuleException('Module not found', 404);
         }
 
+        await this.moduleRepository.delete(id).catch((err) => {
+            throw new ModuleException('Module has dependencies', 400);
+        });
+
         await this.moduleRepository.delete(id);
     }
 
