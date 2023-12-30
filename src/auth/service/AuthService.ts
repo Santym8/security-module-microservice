@@ -25,15 +25,22 @@ export class AuthService {
 
         const audit: Audit = {
             action: 'LOGIN',
-            description: 'Login failed',
+            description: '',
             ip: loginRequest.ip,
             date: new Date(),
             user: user,
         }
 
         if (user.password !== loginRequest.password) {
+            audit.description = 'Login failed, bad credentials';
             await this.auditRepository.createOrUpdate(audit);
-            throw new AuthException("Unauthorized", 401);
+            throw new AuthException("Bad credentials", 401);
+        }
+
+        if (user.status === false) {
+            audit.description = 'Login failed, user is inactive';
+            await this.auditRepository.createOrUpdate(audit);
+            throw new AuthException("User is inactive", 401);
         }
 
         const payload = {
