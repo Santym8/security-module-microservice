@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import * as morgan from 'morgan'
 import { ExceptionHandler } from './config/exception/ExceptionHandler';
 import { ValidationHandler } from './config/exception/ValidationHandler';
+import { TrimPipe } from './config/pipe/TrimPipe';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -10,6 +11,7 @@ async function bootstrap() {
   app.use(morgan('dev'))
   app.useGlobalFilters(new ExceptionHandler())
   app.useGlobalPipes(new ValidationHandler())
+  app.useGlobalPipes(new TrimPipe())
 
 
 
