@@ -1,5 +1,5 @@
 import { Inject, Injectable } from "@nestjs/common";
-import {Role} from "../model/Role.entity";
+import { Role } from "../model/Role.entity";
 import { RoleRepository } from "../repository/RoleRepository";
 import { CreateRoleRequest } from "../dto/request/CreateRoleRequest";
 import { RoleException } from "../exception/RoleException";
@@ -14,14 +14,18 @@ export class RoleService {
     constructor(
         private roleRepository: RoleRepository,
         private functionRepository: FunctionRepository,
-        ) { }
+    ) { }
 
     async findAll(): Promise<GetRoleResponse[]> {
         return await this.roleRepository.getAll();
     }
 
     async findOne(id: number): Promise<GetRoleResponse> {
-        return await this.roleRepository.getById(id);
+        const role = await this.roleRepository.getById(id);
+        if (!role) {
+            throw new RoleException('Role not found', 404);
+        }
+        return role;
     }
     async create(role: CreateRoleRequest): Promise<number> {
         if (await this.roleRepository.getByName(role.name)) {

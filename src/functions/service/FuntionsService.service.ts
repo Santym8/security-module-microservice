@@ -16,10 +16,11 @@ export class FunctionsService {
     }
 
     async findOne(id: number): Promise<GetFunctionResponse> {
-        if (!await this.functionRepository.getById(id)) {
+        const func = await this.functionRepository.getById(id);
+        if (!func) {
             throw new FuntionException('Function not found', 404);
         }
-        return await this.functionRepository.getById(id);
+        return func;
     }
 
     async create(func: CreateFunctionRequest): Promise<number> {

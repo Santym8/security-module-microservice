@@ -16,10 +16,11 @@ export class ModulesService {
     }
 
     async findOne(id: number): Promise<GetModuleResponse> {
-        if (!await this.moduleRepository.getById(id)) {
+        const module = await this.moduleRepository.getById(id);
+        if (!module) {
             throw new ModuleException('Module not found', 404);
         }
-        return await this.moduleRepository.getById(id);
+        return module;
     }
 
     async create(module: CreateModuleRequest): Promise<number> {
