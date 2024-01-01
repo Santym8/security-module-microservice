@@ -47,7 +47,9 @@ export class RoleService {
             throw new RoleException('Role not found', 404);
         }
 
-        await this.roleRepository.delete(id);
+        await this.roleRepository.delete(id).catch(() => {
+            throw new RoleException('Role has dependencies', 400);
+        });
     }
 
     async update(id: number, role: UpdateRoleRequest): Promise<void> {

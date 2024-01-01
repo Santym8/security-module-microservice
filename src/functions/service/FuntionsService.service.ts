@@ -50,7 +50,9 @@ export class FunctionsService {
             throw new FuntionException('Function not found', 404);
         }
 
-        await this.functionRepository.delete(id);
+        await this.functionRepository.delete(id).catch(() => {
+            throw new FuntionException('Function has dependencies', 400);
+        });
     }
 
     async update(id: number, updateFunctionRequest: UpdateFunctionRequest): Promise<void> {
