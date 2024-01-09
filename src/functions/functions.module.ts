@@ -5,9 +5,10 @@ import { FunctionsService } from './service/FuntionsService.service';
 import { FunctionRepository } from './repository/FunctionRepository';
 import { ModuleRepository } from 'src/modules/repository/ModelRespository';
 import { PopulateFunctionData } from './model/PopulateFunctionData';
+import { ModulesModule } from 'src/modules/modules.module';
 
 @Module({
-    imports: [DatabaseModule],
+    imports: [DatabaseModule, ModulesModule],
     controllers: [FunctionsController],
     providers: [FunctionsService, FunctionRepository, ModuleRepository, PopulateFunctionData],
     exports: [FunctionRepository,]

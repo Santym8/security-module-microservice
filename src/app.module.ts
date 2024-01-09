@@ -14,8 +14,8 @@ import { ConfigModule } from '@nestjs/config';
     }),
     UsersModule,
     AuditModule,
-    FunctionsModule,
     ModulesModule,
+    FunctionsModule,
     RolesModule,
     AuthModule
   ],
