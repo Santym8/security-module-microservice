@@ -1,7 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 import { User } from '../model/User.entity';
-import { Role } from 'src/roles/model/Role.entity';
+import { ConfigService } from '@nestjs/config';
+import { FunctionRepository } from 'src/functions/repository/FunctionRepository';
 
 @Injectable()
 export class UserRepository {
@@ -11,6 +12,8 @@ export class UserRepository {
     constructor(
         @Inject('DATA_SOURCE')
         private readonly dataSourceConfig: DataSource,
+        private readonly configService: ConfigService,
+        private readonly functionRepository: FunctionRepository
     ) {
         this.userRepository = this.dataSourceConfig.getRepository(User);
     }
@@ -29,14 +32,14 @@ export class UserRepository {
         return await this.userRepository.find();
     }
 
-    public async getById(id: number, relations?:string[]): Promise<User> {
-        if(relations){
+    public async getById(id: number, relations?: string[]): Promise<User> {
+        if (relations) {
             return await this.userRepository.createQueryBuilder("user")
-            .leftJoinAndSelect("user.roles", "role")
-            .where("user.id = :id", { id })
-            .getOne();
+                .leftJoinAndSelect("user.roles", "role")
+                .where("user.id = :id", { id })
+                .getOne();
         }
-        else{
+        else {
             return await this.userRepository.findOneBy({ id: id });
         }
     }
@@ -61,6 +64,10 @@ export class UserRepository {
                 relations: ['roles.functions']
             });
 
+        if (user.username === this.configService.get<string>("ADMIN_USERNAME")) {
+            return (await this.functionRepository.getAll()).map(functions => functions.name);
+        }
+        
         return user.roles
             // Arrays of functions
             .map(role => role.functions)
