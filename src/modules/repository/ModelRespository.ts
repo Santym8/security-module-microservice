@@ -14,7 +14,7 @@ export class ModuleRepository {
     }
 
     public async createOrUpdate(module: Module): Promise<Module> {
-        return this.moduleRepository.save(module);
+        return await this.moduleRepository.save(module);
     }
 
     public async delete(id: number): Promise<void> {

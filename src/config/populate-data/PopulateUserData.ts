@@ -1,24 +1,18 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
-import { UserRepository } from '../repository/UserRepository';
-import { CreateUserRequest } from '../dto/request/CreateUserRequest';
+import { Injectable } from '@nestjs/common';
+import { UserRepository } from '../../users/repository/UserRepository';
+import { CreateUserRequest } from '../../users/dto/request/CreateUserRequest';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
-export class PopulateUserData implements OnModuleInit {
+export class PopulateUserData {
 
     constructor(
         private readonly userRepository: UserRepository,
         private readonly configService: ConfigService,
     ) { }
 
-    async onModuleInit() {
-        // Your data population logic goes here
-        console.log('Populating User');
-        await this.populateData();
-    }
-
-    private async populateData() {
-
+    public async populateData() {
+        console.log('Populating users...')
         const users: CreateUserRequest[] = [
             {
                 username: this.configService.get<string>("ADMIN_USERNAME") || "admin",
@@ -28,9 +22,13 @@ export class PopulateUserData implements OnModuleInit {
             },
         ]
 
-        users.forEach(async (fun) => {
+        await Promise.all(users.map(async (fun) => {
             const user = await this.userRepository.getByUsername(fun.username)
-            if (user) return;
+
+            if (user) {
+                console.log(`User ${fun.username} already exists`)
+                return;
+            }
 
             await this.userRepository.createOrUpdate({
                 id: null,
@@ -40,6 +38,6 @@ export class PopulateUserData implements OnModuleInit {
                 password: fun.password,
                 status: true,
             });
-        });
+        }));
     }
 }
