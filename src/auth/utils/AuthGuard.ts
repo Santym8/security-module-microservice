@@ -9,7 +9,7 @@ import { TokenManager } from './TokenManager';
 import { Payload } from './interfaces/Payload';
 import { Reflector } from '@nestjs/core';
 import { UserRepository } from 'src/users/repository/UserRepository';
-import { Funtion } from './functions.decorator';
+import { FuntionRequired } from './functions.decorator';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -32,7 +32,7 @@ export class AuthGuard implements CanActivate {
         }
 
 
-        const requiredFunction = this.reflector.get<string>(Funtion, context.getHandler());
+        const requiredFunction = this.reflector.get<string>(FuntionRequired, context.getHandler());
 
         if (!requiredFunction) {
             return true;

@@ -4,7 +4,7 @@ import { AuditResponse } from '../dto/response/AuditResponse';
 import { AuditRequest } from '../dto/request/AuditRequest';
 import { CreateAuditResponse } from '../dto/response/CreateAuditResponse';
 import { AuthGuard } from 'src/auth/utils/AuthGuard';
-import { Funtion } from 'src/auth/utils/functions.decorator';
+import { FuntionRequired } from 'src/auth/utils/functions.decorator';
 
 @UseGuards(AuthGuard)
 @Controller('api/audit')
@@ -15,7 +15,7 @@ export class AuditController {
     ) { }
 
     @Get()
-    @Funtion('SEC-AUDIT-READ')
+    @FuntionRequired('SEC-AUDIT-READ')
     getAll(): Promise<AuditResponse[]> {
         return this.auditService.findAll();
     }

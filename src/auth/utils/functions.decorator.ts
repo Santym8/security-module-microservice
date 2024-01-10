@@ -1,3 +1,3 @@
 import { Reflector } from '@nestjs/core';
 
-export const Funtion = Reflector.createDecorator<string>();
+export const FuntionRequired = Reflector.createDecorator<string>();
