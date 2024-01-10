@@ -1,10 +1,12 @@
-import { Controller, Body, Delete, Param, Post, Get, Put } from '@nestjs/common';
+import { Controller, Body, Delete, Param, Post, Get, Put, UseGuards } from '@nestjs/common';
 import { FunctionsService } from '../service/FuntionsService.service';
 import { CreateFunctionRequest } from '../dto/request/CreateFunctionRequest';
 import { UpdateFunctionRequest } from '../dto/request/UpdateFunctionRequest';
 import { GetFunctionResponse } from '../dto/response/GetFunctionResponse';
 import { ModelResponse } from '../../modules/dto/response/ModuleResponse';
+import { AuthGuard } from 'src/auth/utils/AuthGuard';
 
+@UseGuards(AuthGuard)
 @Controller('api/functions')
 export class FunctionsController {
 

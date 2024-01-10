@@ -1,10 +1,12 @@
-import { Controller, Body, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Controller, Body, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { ModulesService } from '../service/ModulesService.service';
 import { CreateModuleRequest } from '../dto/request/CreateModuleRequest';
 import { UpdateModelRequest } from '../dto/request/UpdateModuleRequest';
 import { GetModuleResponse } from '../dto/response/GetModuleResponse';
 import { ModelResponse } from '../dto/response/ModuleResponse';
+import { AuthGuard } from 'src/auth/utils/AuthGuard';
 
+@UseGuards(AuthGuard)
 @Controller('api/modules')
 export class ModulesController {
 

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from "@nestjs/common";
 import { RoleService } from "../service/RoleService";
 import { CreateRoleRequest } from "../dto/request/CreateRoleRequest";
 import { UpdateRoleRequest } from "../dto/request/UpdateRoleRequest";
@@ -6,7 +6,9 @@ import { GetRoleResponse } from "../dto/response/GetRoleResponse";
 import { RoleResponse } from "../dto/response/RoleResponse";
 import { AssignFunctionsToRoleRequest } from "../dto/request/AssignFunctionsToRoleRequest";
 import { Function } from "../../functions/model/Function.entity";
+import { AuthGuard } from "src/auth/utils/AuthGuard";
 
+@UseGuards(AuthGuard)
 @Controller('api/roles')
 export class RolesController {
 
