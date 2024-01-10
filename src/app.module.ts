@@ -7,6 +7,7 @@ import { RolesModule } from './roles/roles.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { PopulateDataModule } from './config/populate-data/populate-data.module';
+import { TestModule } from './test/test.module';
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { PopulateDataModule } from './config/populate-data/populate-data.module'
     FunctionsModule,
     RolesModule,
     AuthModule,
-    PopulateDataModule
+    PopulateDataModule,
+    TestModule
   ],
 })
 export class AppModule { }
