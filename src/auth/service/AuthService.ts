@@ -5,6 +5,7 @@ import { TokenManager } from "../utils/TokenManager";
 import { AuthReponse } from "../dto/response/AuthResponse";
 import { Audit } from "src/audit/model/Audit.entity";
 import { LoginRequest } from "../dto/request/LoginRequest";
+import { Payload } from "../utils/interfaces/Payload";
 
 @Injectable()
 export class AuthService {
@@ -30,7 +31,7 @@ export class AuthService {
             throw new AuthException("User is inactive", 401);
         }
 
-        const payload = {
+        const payload: Payload = {
             id: user.id,
         };
 
