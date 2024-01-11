@@ -7,6 +7,7 @@ import { RoleResponse } from "../dto/response/RoleResponse";
 import { AssignFunctionsToRoleRequest } from "../dto/request/AssignFunctionsToRoleRequest";
 import { Function } from "../../functions/model/Function.entity";
 import { AuthGuard } from "src/auth/utils/AuthGuard";
+import { FunctionRequired } from 'src/auth/utils/functions.decorator';
 
 @UseGuards(AuthGuard)
 @Controller('api/roles')
@@ -17,23 +18,27 @@ export class RolesController {
   ) { }
 
   @Get()
+  @FunctionRequired('SEC-ROLES-READ')
   getAll(): Promise<GetRoleResponse[]> {
     return this.roleService.findAll();
   }
 
   @Get('/:id')
+  @FunctionRequired('SEC-ROLES-READ')
   async get(@Param('id') id: any): Promise<GetRoleResponse> {
     id = parseInt(id) || -1;
     return await this.roleService.findOne(id);
   }
 
   @Get('/:id/functions')
+  @FunctionRequired('SEC-FUNCTIONS-TO-ROLE-READ')
   async getFunctions(@Param('id') id: any): Promise<Function[]> {
     id = parseInt(id) || -1;
     return await this.roleService.getFunctionsForRole(id);
   }
 
   @Post()
+  @FunctionRequired('SEC-ROLES-CREATE')
   async create(@Body() role: CreateRoleRequest): Promise<RoleResponse> {
     const roleId = await this.roleService.create(role);
     return {
@@ -43,6 +48,7 @@ export class RolesController {
   }
 
   @Post('/:id/functions')
+  @FunctionRequired('SEC-FUNCTIONS-TO-ROLE-UPDATE')
   async assignFunctions(@Param('id') id: any, @Body() request: AssignFunctionsToRoleRequest): Promise<RoleResponse> {
     id = parseInt(id) || -1;
     request.roleId = id;
@@ -54,6 +60,7 @@ export class RolesController {
   }
 
   @Delete('/:id')
+  @FunctionRequired('SEC-ROLES-DELETE')
   async delete(@Param('id') id: any): Promise<RoleResponse> {
     id = parseInt(id) || -1;
     await this.roleService.delete(id);
@@ -64,6 +71,7 @@ export class RolesController {
   }
 
   @Put('/:id')
+  @FunctionRequired('SEC-ROLES-UPDATE')
   async update(@Param('id') id: any, @Body() role: UpdateRoleRequest): Promise<RoleResponse> {
     id = parseInt(id) || -1;
     await this.roleService.update(id, role);
