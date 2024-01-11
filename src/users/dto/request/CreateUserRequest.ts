@@ -13,9 +13,4 @@ export class CreateUserRequest {
     @IsString()
     @Length(10, 15)
     dni: string;
-
-    @IsString()
-    @IsNotEmpty()
-    @Length(8, 15)
-    password: string;
 }

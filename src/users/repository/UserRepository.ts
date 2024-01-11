@@ -64,10 +64,14 @@ export class UserRepository {
                 relations: ['roles.functions']
             });
 
+        if (!user) {
+            return [];
+        }
+
         if (user.username === this.configService.get<string>("ADMIN_USERNAME")) {
             return (await this.functionRepository.getAll()).map(functions => functions.name);
         }
-        
+
         return user.roles
             // Arrays of functions
             .map(role => role.functions)

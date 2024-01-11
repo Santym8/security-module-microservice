@@ -4,5 +4,4 @@ export class GetUserResponse {
     email: string;
     dni: string;
     status: boolean;
-    password: string;
 }

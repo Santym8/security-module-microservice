@@ -17,8 +17,7 @@ export class PopulateUserData {
             {
                 username: this.configService.get<string>("ADMIN_USERNAME") || "admin",
                 email: this.configService.get<string>("ADMIN_USERNAME") || "admin@localhost",
-                dni: this.configService.get<string>("ADMIN_DNI") || "12345678",
-                password: this.configService.get<string>("ADMIN_PASSWORD") || "Admin.1234"
+                dni: this.configService.get<string>("ADMIN_DNI") || "12345678"
             },
         ]
 
@@ -35,7 +34,6 @@ export class PopulateUserData {
                 username: fun.username,
                 email: fun.email,
                 dni: fun.dni,
-                password: fun.password,
                 status: true,
             });
         }));
