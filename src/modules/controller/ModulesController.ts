@@ -5,6 +5,7 @@ import { UpdateModelRequest } from '../dto/request/UpdateModuleRequest';
 import { GetModuleResponse } from '../dto/response/GetModuleResponse';
 import { ModelResponse } from '../dto/response/ModuleResponse';
 import { AuthGuard } from 'src/auth/utils/AuthGuard';
+import { FunctionRequired } from 'src/auth/utils/functions.decorator';
 
 @UseGuards(AuthGuard)
 @Controller('api/modules')
@@ -15,17 +16,20 @@ export class ModulesController {
     ) { }
 
     @Get()
+    @FunctionRequired('SEC-MODULES-READ')
     getAll(): Promise<GetModuleResponse[]> {
         return this.moduleService.findAll();
     }
 
     @Get('/:id')
+    @FunctionRequired('SEC-MODULES-READ')
     async get(@Param('id') id: any): Promise<GetModuleResponse> {
         id = parseInt(id) || -1;
         return await this.moduleService.findOne(id);
     }
 
     @Post()
+    @FunctionRequired('SEC-MODULES-CREATE')
     async create(@Body() module: CreateModuleRequest): Promise<ModelResponse> {
         const moduleId = await this.moduleService.create(module);
         return {
@@ -35,6 +39,7 @@ export class ModulesController {
     }
 
     @Delete('/:id')
+    @FunctionRequired('SEC-MODULES-DELETE')
     async delete(@Param('id') id: any): Promise<ModelResponse> {
         id = parseInt(id) || -1;
         await this.moduleService.delete(id);
@@ -45,6 +50,7 @@ export class ModulesController {
     }
 
     @Put('/:id')
+    @FunctionRequired('SEC-MODULES-UPDATE')
     async update(@Param('id') id: any, @Body() module: UpdateModelRequest): Promise<ModelResponse> {
         id = parseInt(id) || -1;
         await this.moduleService.update(id, module);
