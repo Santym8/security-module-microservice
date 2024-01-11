@@ -8,9 +8,4 @@ export class LoginRequest {
     @IsNotEmpty()
     @IsString()
     password: string;
-
-    @IsNotEmpty()
-    @IsString()
-    @Length(7, 15)
-    ip:string;
 }
