@@ -4,7 +4,9 @@ import { AuditResponse } from '../dto/response/AuditResponse';
 import { AuditRequest } from '../dto/request/AuditRequest';
 import { CreateAuditResponse } from '../dto/response/CreateAuditResponse';
 import { AuthGuard } from 'src/auth/utils/AuthGuard';
+import { FunctionRequired } from 'src/auth/utils/functions.decorator';
 
+@UseGuards(AuthGuard)
 @Controller('api/audit')
 export class AuditController {
 
@@ -13,11 +15,11 @@ export class AuditController {
     ) { }
 
     @Get()
+    @FunctionRequired('SEC-AUDIT-READ')
     getAll(): Promise<AuditResponse[]> {
         return this.auditService.findAll();
     }
 
-    @UseGuards(AuthGuard)
     @Post()
     async create(@Headers() headers: any, @Body() audit: AuditRequest): Promise<CreateAuditResponse> {
         const userId = headers.user.id || -1;

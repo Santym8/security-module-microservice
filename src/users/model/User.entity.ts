@@ -19,9 +19,6 @@ export class User {
     @Column({ default: true, type: 'bit', nullable: false })
     status: boolean;
 
-    @Column({ nullable: false, length: 15, type: 'varchar' })
-    password: string;
-
     @ManyToMany(type => Role, role => role.users)
     @JoinTable()
     roles?: Role[];

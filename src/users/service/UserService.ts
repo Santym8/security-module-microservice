@@ -88,7 +88,6 @@ export class UserService {
         userToUpdate.email = user.email;
         userToUpdate.dni = user.dni;
         userToUpdate.status = user.status;
-        userToUpdate.password = user.password;
 
 
         await this.userRepository.createOrUpdate(userToUpdate);

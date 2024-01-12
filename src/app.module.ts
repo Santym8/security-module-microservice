@@ -8,12 +8,14 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { PopulateDataModule } from './config/populate-data/populate-data.module';
 import { TestModule } from './test/test.module';
+import { DatabaseModule } from './config/database/database.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    DatabaseModule,
     UsersModule,
     AuditModule,
     ModulesModule,

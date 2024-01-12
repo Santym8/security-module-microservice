@@ -6,10 +6,17 @@ import {
 } from '@nestjs/common';
 import { Request } from 'express';
 import { TokenManager } from './TokenManager';
+import { Payload } from './interfaces/Payload';
+import { Reflector } from '@nestjs/core';
+import { UserRepository } from 'src/users/repository/UserRepository';
+import { FunctionRequired } from './functions.decorator';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-    constructor(private readonly tokenManager: TokenManager,) { }
+    constructor(private readonly tokenManager: TokenManager,
+        private readonly reflector: Reflector,
+        private readonly userRepository: UserRepository,
+    ) { }
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
         const request = context.switchToHttp().getRequest();
@@ -18,11 +25,33 @@ export class AuthGuard implements CanActivate {
             throw new UnauthorizedException();
         }
         try {
-            const payload = await this.tokenManager.verifyToken(token);
+            const payload: Payload = await this.tokenManager.verifyToken(token);
             request.headers.user = payload;
+            const user = await this.userRepository.getById(payload.id);
+            if (!user) {
+                throw new UnauthorizedException();
+            }
         } catch {
             throw new UnauthorizedException();
         }
+
+
+        const requiredFunction = this.reflector.get<string>(FunctionRequired, context.getHandler());
+
+        if (!requiredFunction) {
+            return true;
+        }
+
+        const userFunctions = await this.userRepository.getFunctionsOfUser(request.headers.user.id);
+
+        if (!userFunctions) {
+            throw new UnauthorizedException();
+        }
+
+        if (!userFunctions.includes(requiredFunction)) {
+            throw new UnauthorizedException();
+        }
+
         return true;
     }
 
