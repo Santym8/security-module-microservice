@@ -8,12 +8,14 @@ import { GetUserResponse } from '../dto/response/GetUserResponse';
 import { AssignRolesToUserRequest } from '../dto/request/AssignRolesToUserRequest';
 import { RoleRepository } from 'src/roles/repository/RoleRepository';
 import { Role } from 'src/roles/model/Role.entity';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class UserService {
     constructor(
         private userRepository: UserRepository,
-        private roleRepository: RoleRepository,   
+        private roleRepository: RoleRepository,
+        private readonly configService: ConfigService,
     ) { }
 
     async findAll(): Promise<GetUserResponse[]> {
@@ -54,8 +56,13 @@ export class UserService {
     }
 
     async delete(id: number): Promise<void> {
-        if (!await this.userRepository.getById(id)) {
+        const user = await this.userRepository.getById(id);
+        if (!user) {
             throw new UserException('User not found', 404);
+        }
+
+        if(user.username == this.configService.get<string>('ADMIN_USERNAME')) {
+            throw new UserException('Cannot delete admin user', 400);
         }
 
         await this.userRepository.delete(id).catch((err) => {
@@ -67,6 +74,10 @@ export class UserService {
         const userToUpdate = await this.userRepository.getById(id);
         if (!userToUpdate) {
             throw new UserException('User not found', 404);
+        }
+
+        if(userToUpdate.username == this.configService.get<string>('ADMIN_USERNAME')) {
+            throw new UserException('Cannot update admin user', 400);
         }
 
         let userAlreadyExists = await this.userRepository.getByEmail(user.email);
