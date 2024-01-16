@@ -95,4 +95,10 @@ export class AuthService {
         }
 
     }
+
+
+    async getUserFunctions(userId: number): Promise<string[]> {
+        const functions = await this.userRepository.getFunctionsOfUser(userId);
+        return functions;
+    }
 }

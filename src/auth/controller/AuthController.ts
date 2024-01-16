@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Headers, Post, UseGuards } from "@nestjs/common";
 import { AuthService } from "../service/AuthService";
 import { LoginRequest } from "../dto/request/LoginRequest";
 import { AuthReponse } from "../dto/response/AuthResponse";
@@ -22,6 +22,14 @@ export class AuthController {
         return {
             message: 'Token is valid'
         }
+    }
+
+    @UseGuards(AuthGuard)
+    @Get("functions")
+    async getUserFunctions(@Headers() headers: any): Promise<any> {
+        const userId = headers.user.id || -1;
+
+        return this.authService.getUserFunctions(userId);
     }
 
 }
