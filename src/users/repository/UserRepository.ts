@@ -61,7 +61,7 @@ export class UserRepository {
         const user = await this.userRepository.findOne(
             {
                 where: { id: id },
-                relations: ['roles.functions']
+                relations: ['roles.functions', 'roles.functions.module']
             });
 
         if (!user) {
@@ -73,8 +73,14 @@ export class UserRepository {
         }
 
         return user.roles
-            // Arrays of functions
-            .map(role => role.functions)
+            //Filter inactive roles
+            .filter(role => role.status)
+            // Arrays of functions that are active and their modules are active
+            .map(role =>
+                role.functions.filter(
+                    functions => functions.status === true &&
+                        functions.module.status === true
+                ))
             // Concat arrays
             .reduce((acc, val) => acc.concat(val), [])
             // Get only the name of the functions
