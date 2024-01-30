@@ -8,6 +8,7 @@ import { AssignFunctionsToRoleRequest } from "../dto/request/AssignFunctionsToRo
 import { Function } from "../../functions/model/Function.entity";
 import { AuthGuard } from "src/auth/utils/AuthGuard";
 import { FunctionRequired } from 'src/auth/utils/functions.decorator';
+import { GetFunctionResponse } from 'src/functions/dto/response/GetFunctionResponse';
 
 @UseGuards(AuthGuard)
 @Controller('api/roles')
@@ -32,7 +33,7 @@ export class RolesController {
 
   @Get('/:id/functions')
   @FunctionRequired('SEC-FUNCTIONS-TO-ROLE-READ')
-  async getFunctions(@Param('id') id: any): Promise<Function[]> {
+  async getFunctions(@Param('id') id: any): Promise<GetFunctionResponse[]> {
     id = parseInt(id) || -1;
     return await this.roleService.getFunctionsForRole(id);
   }

@@ -8,6 +8,7 @@ import { GetRoleResponse } from "../dto/response/GetRoleResponse";
 import { AssignFunctionsToRoleRequest } from "../dto/request/AssignFunctionsToRoleRequest";
 import { FunctionRepository } from "../../functions/repository/FunctionRepository";
 import { Function } from "../../functions/model/Function.entity";
+import { GetFunctionResponse } from "../../functions/dto/response/GetFunctionResponse";
 
 @Injectable()
 export class RoleService {
@@ -82,7 +83,7 @@ export class RoleService {
         await this.roleRepository.createOrUpdate(role);
     }
 
-    async getFunctionsForRole(roleId: number): Promise<Function[]> {
+    async getFunctionsForRole(roleId: number): Promise<GetFunctionResponse[]> {
         const role = await this.roleRepository.getById(roleId, ['functions']);
         if (!role) {
             throw new RoleException('Role not found', 404);
