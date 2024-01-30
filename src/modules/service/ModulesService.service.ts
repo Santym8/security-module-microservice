@@ -6,6 +6,7 @@ import { ModuleException } from '../exception/ModuleException';
 import { UpdateModelRequest } from '../dto/request/UpdateModuleRequest';
 import { GetModuleResponse } from '../dto/response/GetModuleResponse';
 import { find } from 'rxjs';
+import { GetFunctionResponse } from 'src/functions/dto/response/GetFunctionResponse';
 
 @Injectable()
 export class ModulesService {
@@ -21,6 +22,14 @@ export class ModulesService {
             throw new ModuleException('Module not found', 404);
         }
         return module;
+    }
+
+    async getFunctionsForModule(id: number): Promise<GetFunctionResponse[]> {
+        const module = await this.moduleRepository.getById(id, ['functions']);
+        if (!module) {
+            throw new ModuleException('Module not found', 404);
+        }
+        return module.functions;
     }
 
     async create(module: CreateModuleRequest): Promise<number> {

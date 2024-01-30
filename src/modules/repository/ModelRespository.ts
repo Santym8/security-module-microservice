@@ -25,8 +25,15 @@ export class ModuleRepository {
         return await this.moduleRepository.find();
     }
 
-    public async getById(id: number): Promise<Module> {
-        return await this.moduleRepository.findOneBy({ id: id });
+    public async getById(id: number, relations?: string[]): Promise<Module> {
+        if (relations) {
+            return await this.moduleRepository.createQueryBuilder("module")
+                .leftJoinAndSelect("module.functions", "function")
+                .where("module.id = :id", { id })
+                .getOne();
+        } else {
+            return await this.moduleRepository.findOneBy({ id: id });
+        }
     }
 
     public async getByName(name: string): Promise<Module> {
