@@ -6,6 +6,7 @@ import { GetModuleResponse } from '../dto/response/GetModuleResponse';
 import { ModelResponse } from '../dto/response/ModuleResponse';
 import { AuthGuard } from 'src/auth/utils/AuthGuard';
 import { FunctionRequired } from 'src/auth/utils/functions.decorator';
+import { GetFunctionResponse } from 'src/functions/dto/response/GetFunctionResponse';
 
 @UseGuards(AuthGuard)
 @Controller('api/modules')
@@ -19,6 +20,13 @@ export class ModulesController {
     @FunctionRequired('SEC-MODULES-READ')
     getAll(): Promise<GetModuleResponse[]> {
         return this.moduleService.findAll();
+    }
+
+    @Get('/:id/functions')
+    @FunctionRequired('SEC-MODULES-READ')
+    async getFunctions(@Param('id') id: any): Promise<GetFunctionResponse[]> {
+        id = parseInt(id) || -1;
+        return await this.moduleService.getFunctionsForModule(id);
     }
 
     @Get('/:id')
