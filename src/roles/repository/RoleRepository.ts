@@ -27,6 +27,7 @@ export class RoleRepository {
         if (relations) {
             return await this.roleRepository.createQueryBuilder("role")
                 .leftJoinAndSelect("role.functions", "function")
+                .leftJoinAndSelect("function.module", "module")
                 .where("role.id = :id", { id })
                 .getOne();
         } else {
