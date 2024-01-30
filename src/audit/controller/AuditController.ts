@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Headers, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Headers, Param, Post, UseGuards } from '@nestjs/common';
 import { AuditService } from '../service/AuditService';
 import { AuditResponse } from '../dto/response/AuditResponse';
 import { AuditRequest } from '../dto/request/AuditRequest';
@@ -30,4 +30,13 @@ export class AuditController {
             id: auditId
         }
     }
+
+    @Get("/user/:id")
+    @FunctionRequired('SEC-AUDIT-READ')
+    async getAuditByUser(@Param('id') id: any): Promise<AuditResponse[]> {
+        id = parseInt(id) || -1;
+        return await this.auditService.findAllByUser(id);
+
+    }
+
 }

@@ -34,6 +34,30 @@ export class AuditService {
         });
     }
 
+    async findAllByUser(userId: number): Promise<AuditResponse[]> {
+
+        const user = await this.userRepository.getById(userId);
+
+        if (!user) {
+            throw new UserException('User not found', 404);
+        }
+
+        const audits = await this.auditRepository.getAllJoinUserAndFunctionByUser(userId);
+
+        return audits.map(audit => {
+            const auditResponse = new AuditResponse();
+            auditResponse.id = audit.id;
+            auditResponse.action = audit.action;
+            auditResponse.description = audit.description;
+            auditResponse.observation = audit.observation;
+            auditResponse.ip = audit.ip;
+            auditResponse.date = audit.date;
+            auditResponse.user = audit.user.email;
+            auditResponse.functionName = audit.function?.name;
+            return auditResponse;
+        });
+    }
+
     async create(audit: AuditRequest, userId: number): Promise<number> {
 
         const user = await this.userRepository.getById(userId);
