@@ -58,7 +58,7 @@ export class AuditService {
         });
     }
 
-    async findAllByUser(userId: number): Promise<AuditResponse[]> {
+    async findAllByUser(userId: number, skip: number, take: number): Promise<AuditResponse[]> {
 
         const user = await this.userRepository.getById(userId);
 
@@ -66,7 +66,7 @@ export class AuditService {
             throw new UserException('User not found', 404);
         }
 
-        const audits = await this.auditRepository.getAllJoinUserAndFunctionByUser(userId);
+        const audits = await this.auditRepository.getAllJoinUserAndFunctionByUser(userId, skip, take);
 
         return audits.map(audit => {
             const auditResponse = new AuditResponse();
