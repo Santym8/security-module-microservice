@@ -39,12 +39,15 @@ export class AuditRepository {
         }));
     }
 
-    public async getAllJoinUserAndFunctionByUser(userId: number): Promise<Audit[]> {
+    public async getAllJoinUserAndFunctionByUser(userId: number, skip: number, take: number): Promise<Audit[]> {
         return (await this.auditRepository.find({
+            where: { user: { id: userId } },
             relations: ['user', 'function'],
             order: {
                 id: "DESC"
-            }
-        })).filter(audit => audit.user.id == userId);
+            },
+            skip: skip,
+            take: take
+        }));
     }
 }
