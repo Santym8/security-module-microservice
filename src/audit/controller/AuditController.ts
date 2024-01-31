@@ -39,10 +39,13 @@ export class AuditController {
     }
 
     @Get("/user/:id")
-@FunctionRequired('SEC-AUDIT-READ')
-async getAuditByUser(@Param('id') id: any, @Query('skip') skip: number, @Query('take') take: number): Promise<AuditResponse[]> {
-    id = parseInt(id) || -1;
-    return await this.auditService.findAllByUser(id, skip, take);
-}
+    @FunctionRequired('SEC-AUDIT-READ')
+    async getAuditByUser(@Param('id') id: any, @Query('numberOfRecors') numberOfRecors: any): Promise<AuditResponse[]> {
+        id = parseInt(id) || -1;
+        numberOfRecors = parseInt(numberOfRecors) || 10;
+        numberOfRecors = numberOfRecors > 0 ? numberOfRecors : 10;
+
+        return await this.auditService.findAllByUser(id, numberOfRecors);
+    }
 
 }

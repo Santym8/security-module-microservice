@@ -19,7 +19,7 @@ export class AuditRepository {
     }
 
     public async getByid(id: number): Promise<Audit> {
-        return await this.auditRepository.findOne({ 
+        return await this.auditRepository.findOne({
             where: { id: id },
             relations: ['user', 'function'],
         });
@@ -39,15 +39,15 @@ export class AuditRepository {
         }));
     }
 
-    public async getAllJoinUserAndFunctionByUser(userId: number, skip: number, take: number): Promise<Audit[]> {
+    public async getAllJoinUserAndFunctionByUser(userId: number, n: number): Promise<Audit[]> {
         return (await this.auditRepository.find({
             where: { user: { id: userId } },
             relations: ['user', 'function'],
             order: {
                 id: "DESC"
             },
-            skip: skip,
-            take: take
+            take: n
+
         }));
     }
 }
