@@ -20,6 +20,13 @@ export class AuditController {
         return this.auditService.findAll();
     }
 
+    @Get('/:id')
+    @FunctionRequired('SEC-AUDIT-READ')
+    async get(@Param('id') id: any): Promise<AuditResponse> {
+        id = parseInt(id) || -1;
+        return await this.auditService.findOne(id);
+    }
+
     @Post()
     async create(@Headers() headers: any, @Body() audit: AuditRequest): Promise<CreateAuditResponse> {
         const userId = headers.user.id || -1;
