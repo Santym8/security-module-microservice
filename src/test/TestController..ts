@@ -5,7 +5,7 @@ export class TestController {
     
     @Get()
     getAll(): string {
-        return "Hello From SECURITY MODULE";
+        return "Hello From SECURITY MODULE!";
     }
 
 }
