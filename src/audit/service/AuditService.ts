@@ -17,6 +17,30 @@ export class AuditService {
         private readonly functionRepository: FunctionRepository,
     ) { }
 
+    async findOne(id: number): Promise<AuditResponse> {
+        const audit = await this.auditRepository.getByid(id);
+    
+        if (!audit) {
+            throw new UserException('Audit not found', 404);
+        }
+    
+        if (!audit.user) {
+            throw new UserException('User not found for audit', 404);
+        }
+    
+        const auditResponse = new AuditResponse();
+        auditResponse.id = audit.id;
+        auditResponse.action = audit.action;
+        auditResponse.description = audit.description;
+        auditResponse.observation = audit.observation;
+        auditResponse.ip = audit.ip;
+        auditResponse.date = audit.date;
+        auditResponse.user = audit.user.email;
+        auditResponse.functionName = audit.function?.name;
+    
+        return auditResponse;
+    }
+
     async findAll(): Promise<AuditResponse[]> {
         const audits = await this.auditRepository.getAllJoinUserAndFunction();
 

@@ -18,6 +18,12 @@ export class AuditRepository {
         return this.auditRepository.save(audit);
     }
 
+    public async getByid(id: number): Promise<Audit> {
+        return await this.auditRepository.findOne({ 
+            where: { id: id },
+            relations: ['user', 'function'],
+        });
+    }
 
     public async delete(id: number): Promise<void> {
         await this.auditRepository.delete({ id: id });
